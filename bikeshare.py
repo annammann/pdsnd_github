@@ -22,12 +22,14 @@ def get_filters():
     # get user input for city (chicago, new york city, washington). HINT: Use a while loop to handle invalid inputs
     city = input('Would you like to see data for Chicago, New York City (NYC), or Washington?: ')
     city = city.lower()
+    # allowing user input to be nyc/NYC/nYc/NyC... convert to new york city for logic compares
     if city == 'nyc':
         city = 'new york city'
     while (city != 'chicago' and
            city != 'new york city' and
            city != 'washington'):
            print('-'*40)
+           # allow user to decide if they want to continue if they entered in an invalid option
            cont = input('Seems the city you entered is not Chicago, New York City (NYC), or Washington.\nWould you like to continue & try again? Enter yes or no. ')
            if (cont == 'no'):
                exit()
@@ -47,6 +49,7 @@ def get_filters():
         month = month.lower()
         while (month not in months):
                print('-'*40)
+               # allow user to decide if they want to continue if they entered in an invalid option
                cont = input('Seems like you entered a month (' + user_input + ') that is not: January, February, March, April, May, or June.\nWould you like to continue & try again? Enter yes or no. ')
                if (cont == 'no'):
                    exit()
@@ -58,23 +61,35 @@ def get_filters():
             day  = input('Enter day (Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, or Sunday): ')
             user_input = day
             day = day.lower()
+            day = validate_day(day)
 
     # get user input for day of week (all, monday, tuesday, ... sunday)
     elif (filter.lower() == 'day'):
         day = input('Enter day (Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, or Sunday): ')
         user_input = day
         day = day.lower()
-        while (day not in days):
-               print('-'*40)
-               cont = input('Seems like you entered a day (' + user_input + ') that is not: Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, or Sunday.\nWould you like to continue & try again? Enter yes or no. ')
-               if (cont == 'yes'):
-                   exit()
-               day = input('Enter day (Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, or Sunday): ')
-               user_input = day
-               day = day.lower()
+        day = validate_day(day)
 
     print('-'*40)
     return city, month, day
+
+def validate_day(day):
+    """
+    Analyzes the day input from user and asks if they want to continue or retry entering day again.
+
+    Returns:
+        (str) day - name of the day of week to filter by, or "all" to apply no day filter
+    """
+    while (day not in days):
+           print('-'*40)
+           user_input = day
+           cont = input('Seems like you entered a day (' + user_input + ') that is not: Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, or Sunday.\nWould you like to continue & try again? Enter yes or no. ')
+           if (cont == 'no'):
+               return 'all'
+           day = input('Enter day (Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, or Sunday): ')
+           user_input = day
+           day = day.lower()
+    return day
 
 def read_csv_data(city):
     """
