@@ -53,6 +53,11 @@ def get_filters():
                month = input('Enter month (January, February, March, April, May, or June? Please type out the full month name.): ')
                user_input = month
                month = month.lower()
+        further_filter = input('Would you like to further filter by day? Enter yes or no. ')
+        if (further_filter == 'yes'):
+            day  = input('Enter day (Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, or Sunday): ')
+            user_input = day
+            day = day.lower()
 
     # get user input for day of week (all, monday, tuesday, ... sunday)
     elif (filter.lower() == 'day'):
@@ -62,7 +67,7 @@ def get_filters():
         while (day not in days):
                print('-'*40)
                cont = input('Seems like you entered a day (' + user_input + ') that is not: Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, or Sunday.\nWould you like to continue & try again? Enter yes or no. ')
-               if (cont == 'no'):
+               if (cont == 'yes'):
                    exit()
                day = input('Enter day (Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, or Sunday): ')
                user_input = day
@@ -260,7 +265,6 @@ def main():
         while cont.lower() == 'y' and index <= len(df): # add check for end of df
             print('*'*40)
             print(df.loc[0+index:5+index])
-            #print(tabulate(df.iloc[np.arange(0+index,5+index)], headers="keys"))
             cont = input("Would you like to see the next 5 rows of raw data? Enter yes(y) or no.\n")
             if cont == 'yes':
                 cont = 'y'
